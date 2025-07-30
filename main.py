@@ -1,70 +1,67 @@
 from biblioteca import Biblioteca
+from usuario import Usuario
+from livro import Livro
 
-def menu():
-    print("\n--- Sistema de Biblioteca ---")
-    print("1. Cadastrar livro")
-    print("2. Cadastrar usuário")
-    print("3. Emprestar livro")
-    print("4. Devolver livro")
-    print("5. Buscar por título")
-    print("6. Buscar por autor")
-    print("7. Relatório de empréstimos")
-    print("0. Sair")
 
-biblioteca = Biblioteca()
+def main():
+    biblioteca = Biblioteca()
 
-while True:
-    menu()
-    opcao = input("Escolha uma opção: ")
+    while True:
+        print("\n=== MENU ===")
+        print("1. Cadastrar livro")
+        print("2. Cadastrar usuário")
+        print("3. Emprestar livro")
+        print("4. Devolver livro")
+        print("5. Listar livros")
+        print("6. Listar usuários")
+        print("7. Relatório de empréstimos")
+        print("0. Sair")
 
-    if opcao == "1":
-        titulo = input("Título: ")
-        autor = input("Autor: ")
-        isbn = input("ISBN: ")
-        biblioteca.cadastrar_livro(titulo, autor, isbn)
-        print("Livro cadastrado com sucesso.")
+        opcao = input("Escolha uma opção: ")
 
-    elif opcao == "2":
-        nome = input("Nome do usuário: ")
-        id_usuario = input("ID do usuário: ")
-        biblioteca.cadastrar_usuario(nome, id_usuario)
-        print("Usuário cadastrado com sucesso.")
+        if opcao == "1":
+            print("\n--- Cadastro de Livro ---")
+            titulo = input("Título do livro: ")
+            autor = input("Autor do livro: ")
+            isbn = input("ISBN do livro: ")
+            biblioteca.cadastrar_livro(titulo, autor, isbn)
 
-    elif opcao == "3":
-        isbn = input("ISBN do livro: ")
-        id_usuario = input("ID do usuário: ")
-        if biblioteca.emprestar_livro(isbn, id_usuario):
-            print("Livro emprestado com sucesso.")
+        elif opcao == "2":
+            print("\n--- Cadastro de Usuário ---")
+            nome = input("Nome do usuário: ")
+            biblioteca.cadastrar_usuario(nome)
+
+        elif opcao == "3":
+            print("\n--- Empréstimo de Livro ---")
+            isbn = input("ISBN do livro: ")
+            try:
+                id_usuario = int(input("ID do usuário: "))
+            except ValueError:
+                print("ID inválido.")
+                continue
+            biblioteca.emprestar_livro(isbn, id_usuario)
+
+        elif opcao == "4":
+            print("\n--- Devolução de Livro ---")
+            isbn = input("ISBN do livro: ")
+            biblioteca.devolver_livro(isbn)
+
+        elif opcao == "5":
+            print("\n--- Lista de Livros ---")
+            biblioteca.relatorio_livros()
+
+        elif opcao == "6":
+            print("\n--- Lista de Usuários ---")
+            biblioteca.relatorio_usuarios()
+        elif opcao == "7":
+            biblioteca.relatorio_emprestimos()
+        elif opcao == "0":
+            print("Saindo do programa...")
+            break
+
         else:
-            print("Erro: livro indisponível ou não encontrado.")
+            print("Opção inválida. Tente novamente.")
 
-    elif opcao == "4":
-        isbn = input("ISBN do livro: ")
-        if biblioteca.devolver_livro(isbn):
-            print("Livro devolvido com sucesso.")
-        else:
-            print("Erro: livro não encontrado ou não está emprestado.")
 
-    elif opcao == "5":
-        titulo = input("Digite o título: ")
-        encontrados = biblioteca.buscar_por_titulo(titulo)
-        for livro in encontrados:
-            print(livro)
-
-    elif opcao == "6":
-        autor = input("Digite o autor: ")
-        encontrados = biblioteca.buscar_por_autor(autor)
-        for livro in encontrados:
-            print(livro)
-
-    elif opcao == "7":
-        print("\n--- Empréstimos Atuais ---")
-        for entrada in biblioteca.relatorio_emprestimos():
-            print(entrada)
-
-    elif opcao == "0":
-        print("Encerrando o sistema...")
-        break
-
-    else:
-        print("Opção inválida.")
+if __name__ == "__main__":
+    main()

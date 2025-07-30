@@ -7,4 +7,4 @@ class Livro:
 
     def __str__(self):
         status = "Emprestado" if self.emprestado else "Disponível"
-        return f"{self.titulo} - {self.autor} (ISBN: {self.isbn}) - {status}"
+        return f"📚 {self.titulo} - {self.autor} | ISBN: {self.isbn} | Status: {status}"
